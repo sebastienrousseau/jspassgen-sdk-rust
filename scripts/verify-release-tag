@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+#
+# Refuses a release tag that the release workflow must not ship: one that
+# is not annotated, carries no signature, has a message other than
+# `jspassgen-sdk-rust v<version>`, points at a commit other than COMMIT,
+# or names a version other than Cargo.toml's (with every restatement,
+# through verify-release-versions --tag).
+#
+# It checks that a signature is present, not that it is valid: CI has no
+# maintainer keys. Verify the signature with `git verify-tag` (KEYS.asc)
+# before pushing the tag.
+#
+#   scripts/verify-release-tag v0.0.22 "$GITHUB_SHA"
+#   scripts/verify-release-tag v0.0.22          # COMMIT defaults to HEAD
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+project="jspassgen-sdk-rust"
+tag="${1:?usage: verify-release-tag TAG [COMMIT]}"
+commit="$(git rev-parse --verify "${2:-HEAD}^{commit}")"
+failures=0
+
+fail() {
+  echo "verify-release-tag: $1" >&2
+  failures=$((failures + 1))
+}
+
+if ! git rev-parse --verify --quiet "refs/tags/${tag}" >/dev/null; then
+  echo "verify-release-tag: no tag ${tag}" >&2
+  exit 1
+fi
+
+if [ "$(git cat-file -t "refs/tags/${tag}")" != "tag" ]; then
+  fail "${tag} is a lightweight tag, not an annotated one"
+else
+  subject="$(git tag -l --format='%(contents:subject)' "$tag")"
+  [ "$subject" = "${project} ${tag}" ] \
+    || fail "${tag} message is '${subject}', expected '${project} ${tag}'"
+  [ -n "$(git tag -l --format='%(contents:signature)' "$tag")" ] \
+    || fail "${tag} is not signed"
+fi
+
+[ "$(git rev-parse "refs/tags/${tag}^{commit}")" = "$commit" ] \
+  || fail "${tag} does not point at ${commit}"
+
+scripts/verify-release-versions --tag "$tag" || failures=$((failures + 1))
+
+if [ "$failures" -ne 0 ]; then
+  echo "verify-release-tag: ${tag} refused (${failures} problem(s))" >&2
+  exit 1
+fi
+echo "verify-release-tag: ${tag} is annotated, signed, '${project} ${tag}', on ${commit}"

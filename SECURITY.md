@@ -6,11 +6,10 @@
 
 | Version | Status | Security fixes |
 | :--- | :--- | :--- |
-| `0.0.22` | In development, not released | Fixed on the release branch |
+| `0.0.22` | Latest release | Yes |
 
-Nothing has been released yet. From the first release on, the latest
-release receives security fixes; an older release is fixed by upgrading,
-since each step is `0.0.1`.
+The latest release receives security fixes; an older release is fixed
+by upgrading, since each step is `0.0.1`.
 
 ## Reporting a vulnerability
 
