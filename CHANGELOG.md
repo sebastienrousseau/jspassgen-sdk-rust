@@ -24,3 +24,15 @@ Nothing is published yet.
   Linux, macOS and Windows and on Rust 1.85, coverage, cargo-deny,
   complexity, release checks), CodeQL, DCO, docs lint, OpenSSF
   Scorecard, Dependabot, and the community and policy documents.
+- A release workflow for `v<version>` tags: `scripts/verify-release-tag`
+  refuses a tag that is not annotated and signed, not on the released
+  commit, or whose message or version disagrees with `Cargo.toml`; then
+  `make check`, `cargo package` and `SHA256SUMS`, a crates.io publish
+  through trusted publishing behind the `crates-io` environment
+  (skipped for a version already published), and a draft GitHub release
+  with the `.crate` and its checksum.
+
+### Changed
+
+- `Cargo.toml` allows publishing to crates.io (`publish = ["crates-io"]`
+  instead of `publish = false`), so the release workflow can publish.

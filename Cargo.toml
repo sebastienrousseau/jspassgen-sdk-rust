@@ -12,9 +12,9 @@ documentation = "https://docs.rs/jspassgen"
 readme = "README.md"
 keywords = ["password", "passphrase", "csprng", "random", "security"]
 categories = ["cryptography", "authentication"]
-# Nothing is published yet; the release workflow arrives with the
-# generators. Until then `cargo publish` is refused.
-publish = false
+# Published to crates.io only, by .github/workflows/release.yml from a
+# signed tag (DEVELOPMENT.md, Release model).
+publish = ["crates-io"]
 # What the package would ship: the library, its tests and the licences.
 # docs/, scripts/ and CI files stay in the repository.
 include = [

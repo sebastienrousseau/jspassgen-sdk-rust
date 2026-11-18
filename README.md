@@ -56,8 +56,9 @@
 ## Development version
 
 This branch prepares unreleased v0.0.22, the crate's first release. It
-is not on crates.io yet (`publish = false` in `Cargo.toml`); depend on
-the git repository until it ships.
+is not on crates.io yet; depend on the git repository until it ships.
+Releases are cut from signed tags by the release workflow
+([release model](DEVELOPMENT.md#release-model)).
 
 ---
 
@@ -239,7 +240,7 @@ and the complexity ceilings (cyclomatic 10, cognitive 15, Halstead
 difficulty 30, 60 lines per function, 500 per file). See
 [`DEVELOPMENT.md`](DEVELOPMENT.md) for every gate, its CI job, and what
 the suite standard asks for that is not here yet (fuzzing, benchmarks,
-the manual, the release workflow).
+the manual, an SBOM), and the release model.
 
 ---
 
