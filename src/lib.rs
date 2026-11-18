@@ -10,8 +10,9 @@
 //! Only the random source exists so far: the [`RandomSource`] trait, the
 //! Rust form of jspassgen's `RandomGeneratorPort`, and [`OsRandom`], its
 //! implementation on the operating system's random source. The password
-//! generators follow once jspassgen publishes its conformance kit, which
-//! every port must pass draw for draw.
+//! generators follow, checked against jspassgen's conformance kit
+//! (shipped in jspassgen 0.0.21), which every port must pass draw for
+//! draw.
 //!
 //! ```
 //! use jspassgen::{OsRandom, RandomSource};
