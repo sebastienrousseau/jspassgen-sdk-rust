@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+#
+# Fails when any restatement of the crate version disagrees with
+# Cargo.toml, the single source of truth: Cargo.lock, CITATION.cff, the
+# CHANGELOG heading, the SECURITY.md and SUPPORT.md support tables and
+# the bug report form. With --tag vX.Y.Z it also checks the tag names
+# that version.
+#
+#   scripts/verify-release-versions
+#   scripts/verify-release-versions --tag v0.0.22
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+version="$(sed -n 's/^version = "\([^"]*\)"$/\1/p' Cargo.toml | head -n 1)"
+if [ -z "$version" ]; then
+  echo "verify-release-versions: no version in Cargo.toml" >&2
+  exit 1
+fi
+failures=0
+
+# expect FILE TEXT: FILE must contain TEXT, verbatim.
+expect() {
+  if ! grep -qF -- "$2" "$1"; then
+    echo "verify-release-versions: $1 lacks: $2" >&2
+    failures=$((failures + 1))
+  fi
+}
+
+if ! grep -A1 -x 'name = "jspassgen"' Cargo.lock | grep -qx "version = \"$version\""; then
+  echo "verify-release-versions: Cargo.lock does not lock jspassgen $version" >&2
+  failures=$((failures + 1))
+fi
+expect CITATION.cff "version: \"$version\""
+expect SECURITY.md "| \`$version\` |"
+expect SUPPORT.md "| \`$version\` |"
+expect .github/ISSUE_TEMPLATE/bug_report.yml "placeholder: \"$version\""
+
+if ! grep -qE "^## \[$version\] - ([0-9]{4}-[0-9]{2}-[0-9]{2}|Unreleased)$" CHANGELOG.md; then
+  echo "verify-release-versions: CHANGELOG.md has no ## [$version] heading" >&2
+  failures=$((failures + 1))
+fi
+
+if [ "${1:-}" = "--tag" ]; then
+  tag="${2:?--tag needs a value}"
+  if [ "$tag" != "v$version" ]; then
+    echo "verify-release-versions: tag $tag, but Cargo.toml says $version" >&2
+    failures=$((failures + 1))
+  fi
+fi
+
+if [ "$failures" -ne 0 ]; then
+  echo "verify-release-versions: $failures mismatch(es) with $version" >&2
+  exit 1
+fi
+echo "verify-release-versions: every restatement says $version"

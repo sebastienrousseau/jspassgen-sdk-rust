@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+cff-version: 1.2.0
+message: "If you use jspassgen-sdk-rust in research or production write-ups, please cite it as below."
+type: software
+title: "jspassgen-sdk-rust: a native Rust port of the jspassgen password generator core"
+abstract: >-
+  The Rust member of the jspassgen suite: a native port of the jspassgen
+  core that generates passwords in the caller's process from the
+  operating system's CSPRNG, with no network call and no telemetry. It
+  currently provides the random source; the generators follow the
+  jspassgen conformance kit.
+authors:
+  - family-names: Rousseau
+    given-names: Sebastien
+version: "0.0.22"
+# Dual-licensed, at the user's option (LICENSE-APACHE, LICENSE-MIT). CFF
+# 1.2.0 takes SPDX licence identifiers, not an SPDX expression; a list of
+# several means the work is available under any of them.
+license:
+  - Apache-2.0
+  - MIT
+repository-code: "https://github.com/sebastienrousseau/jspassgen-sdk-rust"
+url: "https://jspassgen.com"
+keywords:
+  - password
+  - passphrase
+  - CSPRNG
+  - Rust
