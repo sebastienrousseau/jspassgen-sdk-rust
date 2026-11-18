@@ -1,26 +1,22 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sebastienrousseau/jspassgen/master/.github/assets/logo.svg" alt="jspassgen logo" width="128" />
+  <img src="https://raw.githubusercontent.com/sebastienrousseau/jspassgen/main/.github/assets/logo.svg" alt="jspassgen logo" width="128" />
 </p>
 
-<h1 align="center">jspassgen for Rust</h1>
+<h1 align="center">jspassgen-sdk-rust</h1>
 
 <p align="center">
-  The Rust member of the jspassgen suite: a native port of the jspassgen password generator core, on the operating system's CSPRNG. Work in progress: only the random source exists so far.
+  A native Rust port of the jspassgen password generator core on the operating system's CSPRNG, which so far provides the random source and not yet the generators.
 </p>
 
 <p align="center">
-  <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/jspassgen-sdk-rust/ci.yml?style=for-the-badge&logo=github" alt="Build" height="28" /></a>
-  <a href="https://crates.io/crates/jspassgen"><img src="https://img.shields.io/crates/v/jspassgen.svg?style=for-the-badge&color=fc8d62&logo=rust" alt="Registry" height="28" /></a>
-  <a href="https://docs.rs/jspassgen"><img src="https://img.shields.io/docsrs/jspassgen?style=for-the-badge&labelColor=555555&logo=docsdotrs" alt="Docs" height="28" /></a>
+  <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/jspassgen-sdk-rust/ci.yml?branch=main&style=for-the-badge&logo=github" alt="Build" height="28" /></a>
+  <a href="https://crates.io/crates/jspassgen"><img src="https://img.shields.io/badge/crates.io-not%20published%20yet-lightgrey?style=for-the-badge&color=fc8d62&logo=rust" alt="crates.io: not published yet" height="28" /></a>
+  <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/blob/main/DEVELOPMENT.md"><img src="https://img.shields.io/badge/docs-development-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/jspassgen-sdk-rust"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/jspassgen-sdk-rust?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
   <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Rust-1.85%2B-93450a.svg?style=for-the-badge&logo=rust" alt="Rust 1.85 or newer" height="28" /></a>
-</p>
-
-<p align="center">
-  No demo yet: the crate has no generator to show. The demo is recorded once it does.
 </p>
 
 ---
@@ -29,31 +25,39 @@
 
 **Getting started**
 
-- [Install](#install): from the git repository (nothing is on crates.io yet)
+- [Install](#install): from the git repository; not on crates.io yet
 - [Requirements](#requirements): toolchain floor, platforms
 - [Quick Start](#quick-start): an unbiased draw from the OS CSPRNG
 
 **The jspassgen ecosystem**
 
-- [The jspassgen ecosystem](#the-jspassgen-ecosystem): the core, the tools, the SDKs and the site
+- [The jspassgen ecosystem](#the-jspassgen-ecosystem): the core library, its tools and native SDKs, released in lockstep
 
 **Library reference**
 
 - [Capabilities at a glance](#capabilities-at-a-glance): what exists and what does not yet
 - [Ecosystem comparison](#ecosystem-comparison): not written yet
-- [Benchmarks](#benchmarks): none yet
+- [Benchmarks](#benchmarks): none published yet
 - [Features](#features): module-level capability list
 - [Configuration](#configuration): none
 - [Examples](#examples): none yet
 
 **Operational**
 
-- [When not to use jspassgen](#when-not-to-use-jspassgen): limitations
+- [When not to use jspassgen-sdk-rust](#when-not-to-use-jspassgen-sdk-rust): limitations
 - [Development](#development): make targets and CI
 - [Security](#security): guarantees and their limits
 - [Documentation](#documentation): all reference docs
 - [Stability guarantees](#stability-guarantees): SemVer axis, output stability, toolchain floor
 - [License](#license)
+
+---
+
+## Development version
+
+This branch prepares unreleased v0.0.22, the crate's first release. It
+is not on crates.io yet (`publish = false` in `Cargo.toml`); depend on
+the git repository until it ships.
 
 ---
 
@@ -66,21 +70,29 @@
 jspassgen = { git = "https://github.com/sebastienrousseau/jspassgen-sdk-rust" }
 ```
 
-The crate is not published to crates.io; the name `jspassgen` is
-planned for it. Version 0.0.22, the planned first suite version, is in
-development on the `feat/v0.0.22` branch and has not been released.
+The package and the library are both named `jspassgen`. The name is
+still free on crates.io and is planned for this crate's first release.
+
+Build and test from source:
+
+```bash
+git clone https://github.com/sebastienrousseau/jspassgen-sdk-rust.git
+cd jspassgen-sdk-rust
+cargo test
+```
 
 ---
 
 ## Requirements
 
-- Rust 1.85 or newer (`rust-version` in `Cargo.toml`), built and tested
-  in CI on 1.85.0 and stable on Linux, and on stable on macOS and
+- Rust 1.85 or newer (`rust-version` in `Cargo.toml`). CI builds and
+  tests on Rust 1.85.0 and stable on Linux, and on stable on macOS and
   Windows ([toolchain policy](docs/POLICIES.md)).
 - An operating system random source that `getrandom` 0.4 supports:
   `getrandom(2)` on Linux, `getentropy` on macOS, `ProcessPrng` on
-  Windows 10 and later, and the platforms listed in
+  Windows 10 and later, and the other platforms listed in
   [its documentation](https://docs.rs/getrandom).
+- One runtime dependency, `getrandom`.
 
 ---
 
@@ -115,25 +127,32 @@ This block runs as a doctest in CI.
 
 ## The jspassgen ecosystem
 
-jspassgen is one core and a suite of repositories that release at one
-version, listed in jspassgen's
-[`docs/ecosystem.json`](https://github.com/sebastienrousseau/jspassgen/blob/master/docs/ecosystem.json).
-The SDKs are native ports, not network clients: a password is made on
-the caller's machine and never leaves it. Every member but the core is
-planned; none has been released yet.
+jspassgen is one core library and the tools, SDKs and site around it.
+Every member is listed in
+[`docs/ecosystem.json`](https://github.com/sebastienrousseau/jspassgen/blob/main/docs/ecosystem.json)
+and, from the suite's first lockstep release, every member ships the same
+version ([ADR 0001](https://github.com/sebastienrousseau/jspassgen/blob/main/docs/adr/0001-ecosystem-lockstep.md)).
+The JavaScript tools depend on the core and add no generation logic of
+their own; each SDK is a native port that is checked against the core's
+conformance kit as its generators land.
 
 | Component | Purpose | Use case |
 | :--- | :--- | :--- |
-| [`jspassgen`][core] | Zero-dependency JavaScript core, Node.js library, web UI and workers; source of the conformance kit | Generate passwords in JavaScript |
-| [`jspassgen-cli`][cli] | Command-line generator on the core | Generate passwords in a shell |
-| [`jspassgen-mcp`][mcp] | Local stdio MCP server | Generate passwords from an AI agent |
-| [`jspassgen-lsp`][lsp] | Language server for weak literal secrets | Find weak secrets in configuration files |
-| [`jspassgen-sdk-python`][python] | Native Python port | Generate passwords in Python |
-| **`jspassgen-sdk-rust`** | Native Rust port (this crate) | Generate passwords in Rust |
-| [`jspassgen-sdk-java`][java] | Native Java port | Generate passwords on the JVM |
-| [`jspassgen-sdk-dotnet`][dotnet] | Native .NET port | Generate passwords in .NET |
-| [`jspassgen-sdk-cpp`][cpp] | Native C++17 port | Generate passwords in C++ |
-| [`jspassgen.github.io`][site] | jspassgen.com, product and SDK pages | Read about the suite |
+| [`jspassgen`](https://github.com/sebastienrousseau/jspassgen) | Password and passphrase core, Node.js library, CLI, web UI and workers; source of the conformance kit | Programs that generate secrets |
+| [`jspassgen-cli`](https://github.com/sebastienrousseau/jspassgen-cli) | Command-line generator built on the core | Passwords in a terminal or a script |
+| [`jspassgen-mcp`](https://github.com/sebastienrousseau/jspassgen-mcp) | Local stdio MCP server | AI agents that need a generated secret |
+| [`jspassgen-lsp`](https://github.com/sebastienrousseau/jspassgen-lsp) | Language server for weak literal secrets | Editors checking configuration and `.env` files |
+| [`jspassgen-sdk-python`](https://github.com/sebastienrousseau/jspassgen-sdk-python) | Native port on the `secrets` module | Python programs |
+| **`jspassgen-sdk-rust`** | Native port on the OS CSPRNG | Rust programs |
+| [`jspassgen-sdk-java`](https://github.com/sebastienrousseau/jspassgen-sdk-java) | Native port on `SecureRandom` | JVM programs |
+| [`jspassgen-sdk-dotnet`](https://github.com/sebastienrousseau/jspassgen-sdk-dotnet) | Native port on `RandomNumberGenerator` | .NET programs |
+| [`jspassgen-sdk-cpp`](https://github.com/sebastienrousseau/jspassgen-sdk-cpp) | Native C++17 port on the OS CSPRNG | C++ programs |
+| [`jspassgen.github.io`](https://github.com/sebastienrousseau/jspassgen.github.io) | Source of [jspassgen.com](https://jspassgen.com) | Evaluating the suite |
+
+Only `@sebastienrousseau/jspassgen` is on a package registry so far
+(0.0.21 on npm). The table gives each member's purpose; the other members
+are early, each README's Capabilities at a glance says what works today,
+and they first publish with the suite's first lockstep release.
 
 ---
 
@@ -144,10 +163,10 @@ planned; none has been released yet.
 | Random source | `RandomSource` trait: `fill_bytes`, `random_int(max)` | Available |
 | OS CSPRNG | `OsRandom`, through `getrandom` | Available |
 | Unbiased integers | `random_int` by rejection sampling; `Error::InvalidMax` for `max` 0 | Available |
-| Password generators | `strong`, `base64`, `memorable`, `quantum-resistant`, `diceware`, `honeyword`, `pronounceable`, `custom` | Not available yet: waits for the conformance kit |
-| Validation and entropy | configuration checks, entropy calculation, error codes matching core | Not available yet |
-| EFF diceware wordlist | vendored byte-identical from core | Not available yet |
-| Conformance kit | draw tapes replayed through `RandomSource` | Not available yet: the kit does not exist |
+| Password generators | `strong`, `base64`, `memorable`, `quantum-resistant`, `diceware`, `honeyword`, `pronounceable`, `custom` | Not available yet |
+| Validation and entropy | Configuration checks, entropy calculation, error messages matching the core | Not available yet |
+| EFF diceware wordlist | Vendored byte-identical from the core | Not available yet |
+| Conformance kit | jspassgen's draw tapes replayed through `RandomSource` | Not run yet: the kit ships in jspassgen 0.0.21 and is not vendored here yet |
 
 ---
 
@@ -161,19 +180,20 @@ compare.
 
 ## Benchmarks
 
-None yet. Criterion benchmarks arrive with the generators.
+None published yet, and the crate has no benchmark target. Criterion
+benchmarks arrive with the generators.
 
 ---
 
 ## Features
 
-- **`RandomSource`** (`src/random.rs`): the port every generator will
-  draw through. Implement `fill_bytes`; `random_int` comes with it.
-- **`OsRandom`** (`src/random.rs`): the operating system's CSPRNG through
-  `getrandom::fill`; no state, no buffer, no seed.
-- **`Error`** (`src/error.rs`): `InvalidMax` for an empty range,
+- `RandomSource` (`src/random.rs`) is the port every generator will draw
+  through. Implement `fill_bytes`; `random_int` comes with it.
+- `OsRandom` (`src/random.rs`) is the operating system's CSPRNG through
+  `getrandom::fill`, with no state, no buffer and no seed.
+- `Error` (`src/error.rs`) has `InvalidMax` for an empty range and
   `Unavailable` when the operating system cannot supply bytes, with the
-  `getrandom` error as its `source()`.
+  `getrandom` error as its `source()`. It is `#[non_exhaustive]`.
 
 The crate has no Cargo features.
 
@@ -187,36 +207,36 @@ None. The crate reads no environment variables and no files.
 
 ## Examples
 
-None yet; the Quick Start above is the one runnable sample. Examples
-arrive with the generators.
+None yet; the Quick Start above is the one runnable sample. An
+`examples/` directory arrives with the generators.
 
 ---
 
-## When not to use jspassgen
+## When not to use jspassgen-sdk-rust
 
-- **You need a password generator today.** This crate does not generate
-  passwords yet; use [jspassgen](https://github.com/sebastienrousseau/jspassgen)
-  in JavaScript, or another crate, until the port lands.
-- **You need a general-purpose RNG.** `OsRandom` asks the operating
-  system on every call and offers only bytes and bounded `u32` draws;
+- This crate does not generate passwords yet. Use
+  [jspassgen](https://github.com/sebastienrousseau/jspassgen) in
+  JavaScript, or another crate, until the port lands.
+- `OsRandom` is not a general-purpose RNG. It asks the operating system
+  on every call and offers only bytes and bounded `u32` draws;
   [`rand`](https://docs.rs/rand) covers distributions, seeding and speed.
-- **You need reproducible output from a seed.** There is no seeded
-  source by design.
+- There is no seeded source, by design, so it cannot give reproducible
+  output from a seed.
 
 ---
 
 ## Development
 
 ```bash
-make check
+make check      # every gate CI runs, in order
+make docs-lint  # markdownlint, codespell and reuse
 ```
 
 `make check` runs rustfmt, clippy (pedantic, `-D warnings`), the build,
 the tests, 100% line and region coverage (cargo-llvm-cov), rustdoc with
 warnings denied, `cargo deny`, the version and package-contents checks
 and the complexity ceilings (cyclomatic 10, cognitive 15, Halstead
-difficulty 30, 60 lines per function, 500 per file). `make docs-lint`
-runs markdownlint, codespell and reuse. See
+difficulty 30, 60 lines per function, 500 per file). See
 [`DEVELOPMENT.md`](DEVELOPMENT.md) for every gate, its CI job, and what
 the suite standard asks for that is not here yet (fuzzing, benchmarks,
 the manual, the release workflow).
@@ -228,7 +248,7 @@ the manual, the release workflow).
 The crate has no `unsafe` code (`#![forbid(unsafe_code)]`). Randomness
 comes only from the operating system's CSPRNG; there is no user-space
 PRNG and no seed. `random_int` is free of modulo bias, and its tests
-include a statistical check that is shown to fail for a modulo sampler.
+include a chi-square check that is shown to fail for a modulo sampler.
 The crate makes no network call, has no telemetry and reads no files.
 `cargo deny` checks every dependency, and CodeQL and OpenSSF Scorecard
 run on `main`. Nothing is fuzzed yet: there is no parser to fuzz.
@@ -239,48 +259,37 @@ Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 
 ## Documentation
 
-API reference: run `cargo doc --open` (docs.rs follows the first
-release) ·
-[Developer docs](DEVELOPMENT.md) ·
-[Ecosystem map](#the-jspassgen-ecosystem)
+- [Developer documentation](DEVELOPMENT.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Decision records](docs/adr/README.md)
+- [Engineering policies](docs/POLICIES.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Support](SUPPORT.md)
+- [Governance](GOVERNANCE.md)
+- [Agent rules](AGENTS.md)
 
-Also: [Architecture](docs/ARCHITECTURE.md) ·
-[Decision records](docs/adr/README.md) ·
-[Changelog](CHANGELOG.md) · [Policies](docs/POLICIES.md) ·
-[Support](SUPPORT.md) · [Governance](GOVERNANCE.md) ·
-[Agent rules](AGENTS.md)
-
-No rendered manual yet; it arrives with the generators.
+The API reference is built locally with `cargo doc --open`; docs.rs
+follows the first release. There is no rendered manual yet; it arrives
+with the generators.
 
 ---
 
 ## Stability guarantees
 
-The project is pre-1.0 and versions advance in `0.0.1` steps, in lockstep
-with the jspassgen suite. The breaking axis is the public Rust API: the
-`RandomSource` trait, `OsRandom` and the `Error` variants (`Error` is
-`#[non_exhaustive]`). Once generators exist, their output is part of it:
-for the same draws, a change to the password produced is breaking even
-when no signature moves, and the conformance kit pins it. The Rust floor
-moves only as described in the [toolchain policy](docs/POLICIES.md).
+- The project is pre-1.0; versions advance in `0.0.1` steps, in lockstep
+  with the jspassgen suite, and each step may break.
+- The breaking axis is the public Rust API: the `RandomSource` trait,
+  `OsRandom` and the `Error` variants (`Error` is `#[non_exhaustive]`).
+- Once generators exist, their output is part of that axis: for the same
+  draws, a change to the password produced is breaking even when no
+  signature moves, and the conformance kit pins it.
+- The Rust floor moves only as described in the
+  [toolchain policy](docs/POLICIES.md).
 
 ---
 
 ## License
 
-This project is dual-licensed under either:
-
-- Apache License, Version 2.0 ([`LICENSE-APACHE`](LICENSE-APACHE) or <https://www.apache.org/licenses/LICENSE-2.0>)
-- MIT License ([`LICENSE-MIT`](LICENSE-MIT) or <https://opensource.org/licenses/MIT>)
-
-at your option. Dependencies keep their own licences.
-
-[core]: https://github.com/sebastienrousseau/jspassgen
-[cli]: https://github.com/sebastienrousseau/jspassgen-cli
-[mcp]: https://github.com/sebastienrousseau/jspassgen-mcp
-[lsp]: https://github.com/sebastienrousseau/jspassgen-lsp
-[python]: https://github.com/sebastienrousseau/jspassgen-sdk-python
-[java]: https://github.com/sebastienrousseau/jspassgen-sdk-java
-[dotnet]: https://github.com/sebastienrousseau/jspassgen-sdk-dotnet
-[cpp]: https://github.com/sebastienrousseau/jspassgen-sdk-cpp
-[site]: https://github.com/sebastienrousseau/jspassgen.github.io
+Licensed under either [Apache License 2.0](LICENSE-APACHE) or
+[MIT](LICENSE-MIT), at your option.
