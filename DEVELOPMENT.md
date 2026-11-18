@@ -58,8 +58,7 @@ each arrives when it has something to work on:
 
 `.github/workflows/release.yml` releases a pushed `v<version>` tag.
 Versions advance by `0.0.1`, in lockstep with the jspassgen suite; the
-first release is the suite's first lockstep version, 0.0.22. Nothing has
-been published yet.
+first release is the suite's first lockstep version, 0.0.22.
 
 1. On `feat/v<version>`: move the version in `Cargo.toml` and its
    restatements (`make versions`), and date the `CHANGELOG.md` heading.

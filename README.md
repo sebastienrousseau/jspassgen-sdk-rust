@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/jspassgen-sdk-rust/ci.yml?branch=main&style=for-the-badge&logo=github" alt="Build" height="28" /></a>
-  <a href="https://crates.io/crates/jspassgen"><img src="https://img.shields.io/badge/crates.io-not%20published%20yet-lightgrey?style=for-the-badge&color=fc8d62&logo=rust" alt="crates.io: not published yet" height="28" /></a>
+  <a href="https://crates.io/crates/jspassgen"><img src="https://img.shields.io/crates/v/jspassgen?style=for-the-badge&color=fc8d62&logo=rust" alt="crates.io version" height="28" /></a>
   <a href="https://github.com/sebastienrousseau/jspassgen-sdk-rust/blob/main/DEVELOPMENT.md"><img src="https://img.shields.io/badge/docs-development-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/jspassgen-sdk-rust"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/jspassgen-sdk-rust?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
@@ -25,7 +25,7 @@
 
 **Getting started**
 
-- [Install](#install): from the git repository; not on crates.io yet
+- [Install](#install): from crates.io with cargo
 - [Requirements](#requirements): toolchain floor, platforms
 - [Quick Start](#quick-start): an unbiased draw from the OS CSPRNG
 
@@ -53,26 +53,18 @@
 
 ---
 
-## Development version
-
-This branch prepares unreleased v0.0.22, the crate's first release. It
-is not on crates.io yet; depend on the git repository until it ships.
-Releases are cut from signed tags by the release workflow
-([release model](DEVELOPMENT.md#release-model)).
-
----
-
 ## Install
 
 ### As a Rust library
 
-```toml
-[dependencies]
-jspassgen = { git = "https://github.com/sebastienrousseau/jspassgen-sdk-rust" }
+```bash
+cargo add jspassgen@0.0.22
 ```
 
-The package and the library are both named `jspassgen`. The name is
-still free on crates.io and is planned for this crate's first release.
+The package and the library are both named `jspassgen`. This version
+provides the random source; the generators come in a later version.
+Releases are cut from signed tags by the release workflow
+([release model](DEVELOPMENT.md#release-model)).
 
 Build and test from source:
 
@@ -150,10 +142,11 @@ conformance kit as its generators land.
 | [`jspassgen-sdk-cpp`](https://github.com/sebastienrousseau/jspassgen-sdk-cpp) | Native C++17 port on the OS CSPRNG | C++ programs |
 | [`jspassgen.github.io`](https://github.com/sebastienrousseau/jspassgen.github.io) | Source of [jspassgen.com](https://jspassgen.com) | Evaluating the suite |
 
-Only `@sebastienrousseau/jspassgen` is on a package registry so far
-(0.0.21 on npm). The table gives each member's purpose; the other members
-are early, each README's Capabilities at a glance says what works today,
-and they first publish with the suite's first lockstep release.
+Every member ships at 0.0.22, the suite's first lockstep release: the
+core, CLI, MCP and LSP servers on npm, the Python, Rust, Java and .NET
+SDKs on PyPI, crates.io, Maven Central and NuGet, and the C++ SDK and
+the site as GitHub releases. The table gives each member's purpose, and
+each README's Capabilities at a glance says what works today.
 
 ---
 
@@ -270,9 +263,9 @@ Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 - [Governance](GOVERNANCE.md)
 - [Agent rules](AGENTS.md)
 
-The API reference is built locally with `cargo doc --open`; docs.rs
-follows the first release. There is no rendered manual yet; it arrives
-with the generators.
+The API reference is built locally with `cargo doc --open`, and by
+docs.rs for each crates.io release. There is no rendered manual yet; it
+arrives with the generators.
 
 ---
 

@@ -6,11 +6,11 @@
 
 | Version | Status | Fixes |
 | :--- | :--- | :--- |
-| `0.0.22` | In development, not released | On the release branch |
+| `0.0.22` | Latest release | Yes |
 
 Versions move in `0.0.1` steps, in lockstep with the jspassgen suite;
-once releases exist, the latest receives fixes, and an older one is
-fixed by upgrading.
+the latest release receives fixes, and an older one is fixed by
+upgrading.
 
 ## Getting help
 
