@@ -18,7 +18,8 @@ It is not a network client. The suite's design is jspassgen's
 [ADR 0001](https://github.com/sebastienrousseau/jspassgen/blob/master/docs/adr/0001-ecosystem-lockstep.md).
 
 Today it holds only the random source (`RandomSource`, `OsRandom`). The
-generators are ported once jspassgen publishes its conformance kit.
+generators are ported against jspassgen's conformance kit, which
+jspassgen has shipped since 0.0.21.
 
 ## Versioning
 
