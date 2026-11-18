@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+name: Feature Request
+description: Suggest a change to the jspassgen Rust port
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: |
+        What can't you do from Rust today? This crate ports the jspassgen
+        core; a new generator or rule starts in jspassgen and its
+        conformance kit, and reaches this crate afterwards.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Sketch the function or type, what it takes and what it returns.
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Area
+      options:
+        - Random source
+        - Errors
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Real-World Use Case
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+  - type: textarea
+    id: contribution
+    attributes:
+      label: Willingness To Contribute

@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# codespell, run by the docs-lint job and pre-commit.
+[codespell]
+skip = ./target,./.git,./LICENSES,*.lock,KEYS.asc

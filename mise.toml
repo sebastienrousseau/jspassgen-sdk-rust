@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# The toolchain for local work; CI installs the same with
+# dtolnay/rust-toolchain. rust-version in Cargo.toml (1.85) is the floor.
+[tools]
+rust = "1.98.1"

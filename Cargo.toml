@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+[package]
+name = "jspassgen"
+version = "0.0.22"
+edition = "2021"
+rust-version = "1.85"
+description = "Native Rust port of the jspassgen password generator core (in progress: the OS CSPRNG random source only)"
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/sebastienrousseau/jspassgen-sdk-rust"
+homepage = "https://jspassgen.com"
+documentation = "https://docs.rs/jspassgen"
+readme = "README.md"
+keywords = ["password", "passphrase", "csprng", "random", "security"]
+categories = ["cryptography", "authentication"]
+# Nothing is published yet; the release workflow arrives with the
+# generators. Until then `cargo publish` is refused.
+publish = false
+# What the package would ship: the library, its tests and the licences.
+# docs/, scripts/ and CI files stay in the repository.
+include = [
+  "/Cargo.toml",
+  "/Cargo.lock",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/LICENSE-APACHE",
+  "/LICENSE-MIT",
+  "/src/**/*.rs",
+  "/tests/**/*.rs",
+]
+
+[lib]
+name = "jspassgen"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+
+[dependencies]
+getrandom = { version = "0.4.3", features = ["std"] }
