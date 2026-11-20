@@ -232,8 +232,8 @@ warnings denied, `cargo deny`, the version and package-contents checks
 and the complexity ceilings (cyclomatic 10, cognitive 15, Halstead
 difficulty 30, 60 lines per function, 500 per file). See
 [`DEVELOPMENT.md`](DEVELOPMENT.md) for every gate, its CI job, and what
-the suite standard asks for that is not here yet (fuzzing, benchmarks,
-the manual, an SBOM), and the release model.
+the suite standard asks for that is not here yet (benchmarks, the
+manual, an SBOM), and the release model.
 
 ---
 
@@ -245,7 +245,8 @@ PRNG and no seed. `random_int` is free of modulo bias, and its tests
 include a chi-square check that is shown to fail for a modulo sampler.
 The crate makes no network call, has no telemetry and reads no files.
 `cargo deny` checks every dependency, and CodeQL and OpenSSF Scorecard
-run on `main`. Nothing is fuzzed yet: there is no parser to fuzz.
+run on `main`. A cargo-fuzz target checks `random_int` against its
+contract on every pull request (`make fuzz`).
 
 Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 

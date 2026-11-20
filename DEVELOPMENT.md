@@ -25,9 +25,10 @@
 | `make deny` | RustSec advisories, licences, bans, sources | Dependency policy |
 | `make complexity` | cyclomatic 10, cognitive 15, Halstead difficulty 30, 60 lines per function, 500 lines per file, every tracked `.rs` | Complexity ceilings |
 | `make versions`, `make package-check` | version restatements, package allow-list | Versions and package contents |
+| `make fuzz` | cargo-fuzz on `random_int` for 60 s, nightly | Fuzz |
 | `make docs-lint` | markdownlint, codespell, reuse | Docs lint |
 
-`make check` runs every gate but `docs-lint`, in order.
+`make check` runs every gate but `fuzz` and `docs-lint`, in order.
 
 ## Tests
 
@@ -37,6 +38,14 @@
 - `tests/uniformity.rs` runs chi-square tests on `OsRandom` with a
   critical value a correct sampler exceeds with probability below 1e-6,
   and one test that requires a modulo sampler to fail the same check.
+- `tests/contract/mod.rs` states the contract of `random_int` on
+  arbitrary input (`max`, then the byte stream the source replays) and
+  checks the result and the bytes read against a reference computed in
+  `u64` from the definition. `tests/random_int_contract.rs` runs it on
+  every edge of `max` and of the rejection threshold, on stable.
+- `fuzz/fuzz_targets/random_int.rs` runs the same contract under
+  cargo-fuzz (libFuzzer) on generated input: `make fuzz`, nightly
+  only, and the Fuzz CI job.
 - The Rust blocks in `README.md` run as doctests.
 
 ## Not here yet
@@ -48,7 +57,7 @@ each arrives when it has something to work on:
 | :--- | :--- |
 | `conformance/` and `ci/core.ref` | jspassgen's conformance kit |
 | `examples/`, `benches/` (criterion) | the generators |
-| `fuzz/` (cargo-fuzz) | the first input parser (configuration, templates) |
+| More cargo-fuzz targets | the first input parser (configuration, templates) |
 | `.github/demo.tape` and `.github/demo.gif` | an example with output worth showing |
 | Rendered manual and its deploy workflow | the generators' user documentation |
 | cargo-semver-checks | a published version to compare against (after 0.0.22) |

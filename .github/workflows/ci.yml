@@ -3,7 +3,7 @@
 # Format, lint, complexity, build and test on stable and on the minimum
 # supported Rust (rust-version in Cargo.toml), coverage (lines and
 # regions), the dependency policy (cargo-deny) and the release checks.
-# Together these are `make check`.
+# Together these are `make check`. The Fuzz job runs `make fuzz`.
 name: CI
 
 on:
@@ -129,3 +129,22 @@ jobs:
         run: cargo install cargo-deny --locked --version 0.20.2
       - name: Advisories, licences, bans, sources
         run: make deny
+
+  fuzz:
+    name: Fuzz (cargo-fuzz, random_int)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # cargo-fuzz needs nightly for the sanitizer and coverage flags.
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: nightly
+          components: rustfmt, clippy
+      - uses: taiki-e/install-action@ab49d3c64680143e184118bed66a46419fc15519 # v2.90.5
+        with:
+          tool: cargo-fuzz@0.13.2
+      - name: Fuzz random_int for 60 seconds
+        run: make fuzz

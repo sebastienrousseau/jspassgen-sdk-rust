@@ -6,7 +6,7 @@
 CARGO ?= cargo
 CLIPPY_FLAGS := -D warnings -W clippy::cognitive_complexity -W clippy::too_many_lines
 
-.PHONY: check fmt fmt-check lint build test coverage doc deny complexity versions package-check docs-lint clean
+.PHONY: check fmt fmt-check lint build test coverage doc deny complexity versions package-check fuzz docs-lint clean
 
 check: fmt-check lint build test coverage doc deny versions package-check complexity
 
@@ -49,6 +49,18 @@ versions:
 
 package-check:
 	scripts/check-package.sh
+
+# Fuzz random_int against its contract (tests/contract) for FUZZ_TIME
+# seconds. Needs a nightly toolchain and cargo-fuzz
+# (`cargo install cargo-fuzz --locked`); the Fuzz CI job runs it. The
+# same contract runs on stable in `make test`.
+FUZZ_TOOLCHAIN ?= nightly
+FUZZ_TIME ?= 60
+
+fuzz:
+	$(CARGO) +$(FUZZ_TOOLCHAIN) fmt --manifest-path fuzz/Cargo.toml --check
+	$(CARGO) +$(FUZZ_TOOLCHAIN) clippy --manifest-path fuzz/Cargo.toml --locked --all-targets -- $(CLIPPY_FLAGS) -W clippy::pedantic
+	$(CARGO) +$(FUZZ_TOOLCHAIN) fuzz run random_int -- -max_total_time=$(FUZZ_TIME)
 
 # Markdown style, spelling and REUSE: npx, codespell and reuse.
 docs-lint:

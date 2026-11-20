@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# cargo-fuzz targets for jspassgen. Run with `make fuzz` (nightly and
+# cargo-fuzz); the Fuzz CI job runs them on every pull request. Not
+# published, and a workspace of its own so the crate's builds and its
+# lockfile never see libfuzzer-sys.
+[package]
+name = "jspassgen-fuzz"
+version = "0.0.0"
+edition = "2021"
+# The shared contract also builds in the crate's tests, on 1.85.
+rust-version = "1.85"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+getrandom = "0.4.3"
+jspassgen = { path = ".." }
+libfuzzer-sys = "0.4.13"
+
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "random_int"
+path = "fuzz_targets/random_int.rs"
+test = false
+doc = false
+bench = false

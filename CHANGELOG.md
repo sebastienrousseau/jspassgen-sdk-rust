@@ -10,6 +10,17 @@ All notable changes to this crate are recorded here. The format follows
 
 The suite's second lockstep version. The random source is unchanged.
 
+### Added
+
+- A cargo-fuzz target, `fuzz/fuzz_targets/random_int.rs`, that checks
+  `random_int` on generated input against a reference computed from its
+  definition: the result is in `[0, max)`, words below `2^32 mod max`
+  are rejected, exactly the words up to the kept one are read, `max` 0
+  is `InvalidMax` and a failing source fails the draw. `make fuzz` runs
+  it on nightly, and so does a new Fuzz CI job.
+- `tests/random_int_contract.rs`, the same contract on stable over
+  every edge of `max` and of the rejection threshold, in `make test`.
+
 ### Changed
 
 - The version moves to 0.0.23 in `Cargo.toml`, `Cargo.lock`,
