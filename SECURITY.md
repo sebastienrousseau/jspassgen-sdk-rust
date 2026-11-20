@@ -6,7 +6,7 @@
 
 | Version | Status | Security fixes |
 | :--- | :--- | :--- |
-| `0.0.22` | Latest release | Yes |
+| `0.0.23` | Latest release | Yes |
 
 The latest release receives security fixes; an older release is fixed
 by upgrading, since each step is `0.0.1`.

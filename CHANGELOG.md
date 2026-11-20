@@ -6,6 +6,16 @@ All notable changes to this crate are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions move in
 `0.0.1` steps, in lockstep with the jspassgen suite.
 
+## [0.0.23] - Unreleased
+
+The suite's second lockstep version. The random source is unchanged.
+
+### Changed
+
+- The version moves to 0.0.23 in `Cargo.toml`, `Cargo.lock`,
+  `CITATION.cff`, the support tables, the bug report form and the
+  README install line, in lockstep with the jspassgen suite.
+
 ## [0.0.22] - 2026-11-18
 
 The repository scaffold and the random source the port will build on.
