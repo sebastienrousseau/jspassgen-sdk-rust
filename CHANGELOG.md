@@ -6,6 +6,29 @@ All notable changes to this crate are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions move in
 `0.0.1` steps, in lockstep with the jspassgen suite.
 
+## [0.0.23] - 2026-11-20
+
+The suite's second lockstep version. The random source is unchanged.
+
+### Added
+
+- A cargo-fuzz target, `fuzz/fuzz_targets/random_int.rs`, that checks
+  `random_int` on generated input against a reference computed from its
+  definition: the result is in `[0, max)`, words below `2^32 mod max`
+  are rejected, exactly the words up to the kept one are read, `max` 0
+  is `InvalidMax` and a failing source fails the draw. `make fuzz` runs
+  it on nightly, and so does a new Fuzz CI job.
+- `tests/random_int_contract.rs`, the same contract on stable over
+  every edge of `max` and of the rejection threshold, in `make test`.
+- `.github/CODEOWNERS`: every file is owned by the maintainer, whose
+  review the `main` ruleset requires.
+
+### Changed
+
+- The version moves to 0.0.23 in `Cargo.toml`, `Cargo.lock`,
+  `CITATION.cff`, the support tables, the bug report form and the
+  README install line, in lockstep with the jspassgen suite.
+
 ## [0.0.22] - 2026-11-18
 
 The repository scaffold and the random source the port will build on.
