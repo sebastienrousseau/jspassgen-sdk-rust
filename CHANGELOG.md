@@ -20,6 +20,8 @@ The suite's second lockstep version. The random source is unchanged.
   it on nightly, and so does a new Fuzz CI job.
 - `tests/random_int_contract.rs`, the same contract on stable over
   every edge of `max` and of the rejection threshold, in `make test`.
+- `.github/CODEOWNERS`: every file is owned by the maintainer, whose
+  review the `main` ruleset requires.
 
 ### Changed
 
