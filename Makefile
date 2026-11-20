@@ -53,14 +53,17 @@ package-check:
 # Fuzz random_int against its contract (tests/contract) for FUZZ_TIME
 # seconds. Needs a nightly toolchain and cargo-fuzz
 # (`cargo install cargo-fuzz --locked`); the Fuzz CI job runs it. The
-# same contract runs on stable in `make test`.
+# same contract runs on stable in `make test`. The target is the
+# toolchain's host: a prebuilt cargo-fuzz built for musl would otherwise
+# default to a static musl target, which the sanitizers reject.
 FUZZ_TOOLCHAIN ?= nightly
 FUZZ_TIME ?= 60
+FUZZ_TARGET = $(shell rustc +$(FUZZ_TOOLCHAIN) -vV | sed -n 's/^host: //p')
 
 fuzz:
 	$(CARGO) +$(FUZZ_TOOLCHAIN) fmt --manifest-path fuzz/Cargo.toml --check
 	$(CARGO) +$(FUZZ_TOOLCHAIN) clippy --manifest-path fuzz/Cargo.toml --locked --all-targets -- $(CLIPPY_FLAGS) -W clippy::pedantic
-	$(CARGO) +$(FUZZ_TOOLCHAIN) fuzz run random_int -- -max_total_time=$(FUZZ_TIME)
+	$(CARGO) +$(FUZZ_TOOLCHAIN) fuzz run --target $(FUZZ_TARGET) random_int -- -max_total_time=$(FUZZ_TIME)
 
 # Markdown style, spelling and REUSE: npx, codespell and reuse.
 docs-lint:
