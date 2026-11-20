@@ -6,7 +6,7 @@ All notable changes to this crate are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions move in
 `0.0.1` steps, in lockstep with the jspassgen suite.
 
-## [0.0.23] - Unreleased
+## [0.0.23] - 2026-11-20
 
 The suite's second lockstep version. The random source is unchanged.
 

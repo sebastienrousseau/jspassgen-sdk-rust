@@ -13,6 +13,7 @@ authors:
   - family-names: Rousseau
     given-names: Sebastien
 version: "0.0.23"
+date-released: "2026-11-20"
 # Dual-licensed, at the user's option (LICENSE-APACHE, LICENSE-MIT). CFF
 # 1.2.0 takes SPDX licence identifiers, not an SPDX expression; a list of
 # several means the work is available under any of them.

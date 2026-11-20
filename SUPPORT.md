@@ -7,6 +7,7 @@
 | Version | Status | Fixes |
 | :--- | :--- | :--- |
 | `0.0.23` | Latest release | Yes |
+| `0.0.22` | Previous release | No |
 
 Versions move in `0.0.1` steps, in lockstep with the jspassgen suite;
 the latest release receives fixes, and an older one is fixed by
