@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 [package]
 name = "jspassgen"
-version = "0.0.23"
+version = "0.0.24"
 edition = "2021"
 rust-version = "1.85"
 description = "Native Rust port of the jspassgen password generator core (in progress: the OS CSPRNG random source only)"
