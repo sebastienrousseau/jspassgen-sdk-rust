@@ -2,3 +2,6 @@
 # codespell, run by the docs-lint job and pre-commit.
 [codespell]
 skip = ./target,./.git,./LICENSES,*.lock,KEYS.asc
+# `intoto` is the in-toto attestation extension (.intoto.jsonl) the
+# release's provenance bundle must carry, not a misspelling of "into".
+ignore-words-list = intoto
