@@ -6,7 +6,9 @@ All notable changes to this crate are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions move in
 `0.0.1` steps, in lockstep with the jspassgen suite.
 
-## [0.0.24] - Unreleased
+## [0.0.24] - 2026-11-21
+
+The suite's third lockstep version. The random source is unchanged.
 
 ### Added
 
@@ -17,6 +19,13 @@ All notable changes to this crate are recorded here. The format follows
   `jspassgen-sdk-rust-<version>.intoto.jsonl`. Check a download with
   `gh attestation verify <file> --repo sebastienrousseau/jspassgen-sdk-rust`.
   This answers the OpenSSF Scorecard Signed-Releases check.
+
+### Changed
+
+- The version moves to 0.0.24 in `Cargo.toml`, `Cargo.lock`,
+  `fuzz/Cargo.lock`, `CITATION.cff`, the support tables, the bug report
+  form and the README install line, in lockstep with the jspassgen
+  suite.
 
 ## [0.0.23] - 2026-11-20
 
